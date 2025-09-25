@@ -54,7 +54,7 @@ export async function POST(
       `User ${authUser.id} purchase ${isPlanExists.productId} and got ${isPlanExists.credits} credits`
     );
 
-    if (authUser.fcmToken) {
+    if (authUser.fcmToken && notification) {
       try {
         notification.send({
           token: authUser.fcmToken!,
