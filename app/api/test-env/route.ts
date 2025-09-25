@@ -22,7 +22,7 @@ export async function GET() {
     
     return Response.json({
       message: "Environment variables failed",
-      data: { error: error.message },
+      data: { error: error instanceof Error ? error.message : String(error) },
       statusCode: 500
     }, { status: 500 });
   }

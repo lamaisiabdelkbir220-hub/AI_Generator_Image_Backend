@@ -16,7 +16,7 @@ export async function GET() {
     
     return Response.json({
       message: "Database connection failed",
-      data: { error: error.message },
+      data: { error: error instanceof Error ? error.message : String(error) },
       statusCode: 500
     }, { status: 500 });
   }

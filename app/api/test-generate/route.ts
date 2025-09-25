@@ -50,12 +50,12 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("=== Debug Test Error ===");
     console.error("Error details:", error);
-    console.error("Error message:", error.message);
-    console.error("Error stack:", error.stack);
+    console.error("Error message:", error instanceof Error ? error.message : String(error));
+    console.error("Error stack:", error instanceof Error ? error.stack : undefined);
 
     return Response.json({
       error: "Debug test failed",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
       statusCode: 500
     }, { status: 500 });
   }

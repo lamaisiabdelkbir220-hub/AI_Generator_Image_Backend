@@ -48,7 +48,7 @@ export async function GET() {
       message: "GetImg.ai API test error",
       data: {
         status: "ERROR",
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         keyFormat: env.GETIMAGE_AI_TOKEN?.substring(0, 8) + "..."
       },
       statusCode: 500
