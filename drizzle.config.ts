@@ -7,7 +7,7 @@ export default defineConfig({
   dialect: 'postgresql',
 
   dbCredentials: {
-    url: env.DATABASE_URL
+    url: env.DATABASE_URL || 'postgresql://localhost:5432/fallback'
   },
 
   migrations: {
