@@ -1,6 +1,6 @@
 export const IMAGE_STYLES = [
   "None",
-  "Ghibli",
+  "Cartoon",
   "Anime",
   "Realistic",
   "Cyberpunk",
@@ -88,4 +88,16 @@ export const ANDROID_PRICING_PLANS = [
   { name: '50 Credits', productId: 'credits_50', credits: 50 },
   { name: '100 Credits', productId: 'credits_100', credits: 100 },
   { name: '1000 Credits', productId: 'credits_1000', credits: 1000 },
+] as const;
+
+export const IOS_PRICING_PLANS = [
+  { name: '10 Credits', productId: 'ios_credits_10', credits: 10 },
+  { name: '50 Credits', productId: 'ios_credits_50', credits: 50 },
+  { name: '100 Credits', productId: 'ios_credits_100', credits: 100 },
+  { name: '1000 Credits', productId: 'ios_credits_1000', credits: 1000 },
+] as const;
+
+export const ALL_PRICING_PLANS = [
+  ...ANDROID_PRICING_PLANS,
+  ...IOS_PRICING_PLANS
 ] as const;

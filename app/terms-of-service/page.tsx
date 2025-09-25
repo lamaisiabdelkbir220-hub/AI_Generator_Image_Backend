@@ -27,7 +27,7 @@ export default function TermsOfServicePage() {
       <ul className="list-disc list-inside mb-8 space-y-1">
         <li>Generate images from text prompts</li>
         <li>
-          Convert images to different art styles (including Ghibli style and
+          Convert images to different art styles (including Cartoon style and
           other artistic styles)
         </li>
         <li>Share and download generated images</li>

@@ -1,7 +1,7 @@
 import db from '@/db';
 import * as schema from '@/db/schema';
 import { auth } from '@/lib/auth';
-import { ANDROID_PRICING_PLANS } from '@/lib/constants';
+import { ANDROID_PRICING_PLANS, IOS_PRICING_PLANS, ALL_PRICING_PLANS } from '@/lib/constants';
 import { messaging as notification } from '@/lib/firebase';
 import { and, eq, sql } from 'drizzle-orm';
 
@@ -33,7 +33,7 @@ export async function POST(
         { status: 404 }
       );
 
-    const isPlanExists = ANDROID_PRICING_PLANS.find(
+    const isPlanExists = ALL_PRICING_PLANS.find(
       (it) => it.productId === id
     );
 

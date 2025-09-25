@@ -130,7 +130,7 @@ export default function PrivacyPolicyPage() {
           <strong>Provide Our Services</strong>:
           <ul className="list-disc list-inside ml-4 space-y-0.5">
             <li>Generate images based on your prompts</li>
-            <li>Convert your images to different art styles (e.g., Ghibli style)</li>
+            <li>Convert your images to different art styles (e.g., Cartoon style)</li>
             <li>Manage your credits (10 free initial credits)</li>
             <li>Process in-app purchases</li>
             <li>Enable image sharing and downloading</li>

@@ -1,3 +1,5 @@
+// Updated pricing/plans/route.ts with platform support
+
 import db from "@/db";
 import * as schema from '@/db/schema'
 import { auth } from "@/lib/auth";
@@ -22,7 +24,7 @@ export async function GET(req: Request) {
         { status: 404 }
       );
 
-    // Get platform from query params or detect from user's device type
+    // Get platform from query params or user device type
     const url = new URL(req.url);
     const platform = url.searchParams.get('platform') || user.deviceType;
 
