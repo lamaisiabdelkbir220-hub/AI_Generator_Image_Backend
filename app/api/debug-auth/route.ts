@@ -9,12 +9,12 @@ export async function POST(req: Request) {
         console.log("Validation result:", validationResult);
         
         if (!validationResult.success) {
-            console.log("Validation errors:", validationResult.error.errors);
+            console.log("Validation errors:", validationResult.error.issues);
             return Response.json({
                 message: "Validation failed",
                 data: null,
                 statusCode: 422,
-                errors: validationResult.error.errors
+                errors: validationResult.error.issues
             }, { status: 422 });
         }
         
