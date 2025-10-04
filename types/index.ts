@@ -12,4 +12,4 @@ export type IGetImgResponseType = {
   }
 }
 
-export type ICreditHistoryType = "ADS_REWARD" | "CREDIT_PURCHASE" | "IMAGE_GEN";
+export type ICreditHistoryType = "ADS_REWARD" | "CREDIT_PURCHASE" | "IMAGE_GEN" | "HEADSHOT_GEN";
