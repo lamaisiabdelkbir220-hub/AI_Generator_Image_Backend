@@ -110,41 +110,49 @@ export const HEADSHOT_STYLES = [
     id: "corporate",
     name: "Corporate",
     description: "Professional business headshots with formal attire",
+    previewUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic corporate headshot of the uploaded person. Preserve identity exactly: keep the same face shape, natural hair, eye color, and skin tone as in the original photo. No alterations to facial features. Clothing: replace with professional business attire — a tailored dark blazer or suit jacket over a light collared shirt. Ensure it looks natural, fitted, and realistic. Background: neutral, minimal, professional (soft light gray, white, or gradient), with no distractions. Lighting: studio-quality, soft and even across the face, with no harsh shadows. Expression: confident, approachable, natural smile. Final result: sharp focus, high-resolution, realistic skin texture, must look like an authentic professional photo, not AI-stylized.",
     negativePrompt: "casual clothes, messy hair, poor lighting, cluttered background, AI-stylized, cartoonish, unrealistic",
     creditCost: 3,
     isPremium: false,
-    category: "business"
+    category: "business",
+    tags: ["business", "professional", "formal", "linkedin"]
   },
   {
     id: "actor",
     name: "Actor", 
     description: "Entertainment industry headshots for auditions",
+    previewUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic actor headshot of the uploaded person. Preserve identity exactly: maintain the same face shape, hair style, eye color, and skin tone from the original photo with no changes to facial features. Clothing: replace with simple, neutral wardrobe — plain fitted T-shirt or casual shirt in solid colors (black, white, or gray). Avoid logos, patterns, or accessories. Background: plain and clean (light gray, white, or soft gradient). Casting directors should focus entirely on the person. Lighting: natural or studio-quality soft light that shows true skin tone and detail. Balanced, with no heavy shadows or filters. Expression: neutral to slight smile, authentic, approachable, and versatile. No exaggerated posing. Style: high-resolution, sharp detail, realistic skin texture. Must look like a natural professional photo for auditions, not overly edited or stylized.",
     negativePrompt: "business attire, corporate background, stiff pose, poor lighting, logos, patterns, accessories, heavy shadows, filters, exaggerated posing, overly edited, stylized",
     creditCost: 4,
     isPremium: true,
-    category: "entertainment"
+    category: "entertainment",
+    tags: ["acting", "audition", "casting", "entertainment"]
   },
   {
     id: "model",
     name: "Model",
     description: "Fashion and commercial modeling portraits",
+    previewUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic modeling headshot of the uploaded person. Identity preservation is critical: keep the exact same face shape, hair style, eye color, and skin tone as the original photo. No changes to facial features. Clothing: replace with fashionable, well-fitted attire suitable for a modeling portfolio — stylish top, blazer, or casual-chic outfit depending on the composition. Keep colors neutral or trendy, avoid logos or busy patterns. Background: simple or minimalistic studio backdrop (white, gray, or soft gradient) to emphasize the subject. Lighting: soft, professional studio lighting with subtle highlights and shadows to accentuate facial features naturally. Expression: confident, engaging, with subtle attitude or personality; a slight smile or intense gaze is acceptable. Style: high-resolution, sharp focus, realistic skin texture, magazine-quality finish. Must look like a professional model portfolio photo, not AI-stylized or cartoonish.",
     negativePrompt: "logos, busy patterns, distracting background, harsh lighting, amateur quality, AI-stylized, cartoonish, unrealistic",
     creditCost: 4,
     isPremium: true,
-    category: "entertainment"
+    category: "entertainment",
+    tags: ["modeling", "fashion", "portfolio", "commercial"]
   },
   {
     id: "executive",
     name: "Executive",
     description: "High-level executive portraits with commanding presence",
+    previewUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
     promptTemplate: "Create a realistic executive portrait of the uploaded person. Identity preservation is critical: keep the exact same face shape, hair style, eye color, and skin tone as the original photo. No modifications to facial features. Clothing: replace with high-level executive attire — a dark tailored suit jacket, crisp white collared shirt, and optional tie. Outfit should look refined, fitted, and natural. Background: professional yet sophisticated — clean neutral tone (light gray, deep blue, or gradient) or a subtle blurred office setting. Must not distract from the subject. Lighting: dramatic but professional — soft directional light that highlights the face and conveys authority. Expression: confident, composed, approachable but strong (slight smile or serious executive expression). Style: high-resolution, sharp detail, realistic skin texture, professional magazine-quality look. The result should convey leadership, credibility, and authority.",
     negativePrompt: "casual attire, amateur photography, poor composition, distracting background, harsh lighting, unprofessional quality",
     creditCost: 4,
     isPremium: true,
-    category: "premium"
+    category: "premium",
+    tags: ["executive", "leadership", "ceo", "corporate"]
   },
   {
     id: "creative",

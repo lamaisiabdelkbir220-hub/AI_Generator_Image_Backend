@@ -33,9 +33,11 @@ export async function GET(req: Request) {
       id: style.id,
       name: style.name,
       description: style.description,
+      preview_url: style.previewUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop", // Fallback
       category: style.category,
-      creditCost: style.creditCost,
-      isPremium: style.isPremium
+      credit_cost: style.creditCost,
+      is_premium: style.isPremium,
+      tags: style.tags || []
     }));
 
     const responseData = {
