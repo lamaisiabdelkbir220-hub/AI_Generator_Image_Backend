@@ -231,7 +231,7 @@ export const HEADSHOT_ASPECT_RATIOS = [
 ] as const;
 
 export const HEADSHOT_GEN_OPTIONS = {
-  model: "realistic-vision-v5",  // Better model for photorealistic portraits
+  model: "stable-diffusion-xl-v1-0",  // GetImg.ai's stable diffusion XL model
   negative_prompt: "illustration, painting, drawing, art, sketch, cartoon, anime, manga, render, CG, 3d, digital art, concept art, blurry, low quality, distorted face, multiple people, full body, landscape, cluttered background, amateur photography, poor lighting, noise, artifacts, watermark, text, logo, oversaturated, plastic skin, airbrushed, fake, unrealistic",
   guidance: 7.5,
   strength: 0.75, // Slightly lower to allow more photorealism while preserving identity
