@@ -46,7 +46,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     if (generation.status === 'processing' || generation.status === 'queued') {
       // Simple estimation based on quality and batch size
       const baseTime = generation.quality === 'ultra' ? 60 : generation.quality === 'high' ? 45 : 30;
-      const batchTime = (generation.batchSize - 1) * 15;
+      const batchTime = ((generation.batchSize || 1) - 1) * 15;
       estimatedTimeRemaining = Math.max(0, (baseTime + batchTime) - (generation.processingTime || 0));
     }
 
