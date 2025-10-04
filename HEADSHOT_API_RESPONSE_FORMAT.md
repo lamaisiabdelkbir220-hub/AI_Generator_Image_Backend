@@ -10,11 +10,26 @@ After the recent update, the headshot generation endpoint now properly converts 
 ### Request Format
 ```typescript
 {
-  "imageUrl": "https://firebasestorage.googleapis.com/...",  // Firebase URL
+  "imageUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRg...",  // ✅ Base64 string (RECOMMENDED)
+  // OR
+  "imageUrl": "https://firebasestorage.googleapis.com/...",  // ⚠️ URL also supported
   "style": "corporate",                                       // Style ID
   "aspectRatio": "1:1"                                        // Aspect ratio
 }
 ```
+
+### 🎯 Image Input Options
+The backend accepts **BOTH** formats:
+
+1. **Base64 string** (RECOMMENDED) ✅
+   - Format: `data:image/jpeg;base64,YOUR_BASE64_STRING`
+   - No need to upload to Firebase first
+   - Faster, more direct
+
+2. **URL** (Also supported) ⚠️
+   - Format: `https://...`
+   - Backend will download and convert to base64
+   - Adds extra step but still works
 
 ### Headers Required
 ```typescript
@@ -45,49 +60,70 @@ After the recent update, the headshot generation endpoint now properly converts 
 ### 🎨 How to Display in Flutter App:
 
 ```dart
-// Example Flutter code
-if (response.statusCode == 200) {
-  final data = jsonDecode(response.body);
+// STEP 1: Convert image to base64 in Flutter
+import 'dart:convert';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
+Future<String> convertImageToBase64(File imageFile) async {
+  final bytes = await imageFile.readAsBytes();
+  return 'data:image/jpeg;base64,${base64Encode(bytes)}';
+}
+
+// STEP 2: Select image and convert
+final picker = ImagePicker();
+final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+if (pickedFile != null) {
+  final imageFile = File(pickedFile.path);
+  final base64Image = await convertImageToBase64(imageFile);
   
-  // Get the generated headshot URL
-  final headshotUrl = data['data']['url'];
-  final creditsUsed = data['data']['creditsUsed'];
-  final remainingCredits = data['data']['remainingCredits'];
-  final processingTime = data['data']['processingTime'];
+  // STEP 3: Send to backend
+  final response = await generateHeadshot(base64Image, 'corporate', '1:1');
   
-  // Display the image
-  Image.network(headshotUrl);
-  
-  // Show success message
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('✨ Headshot Generated!'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.network(headshotUrl),
-          SizedBox(height: 16),
-          Text('Credits Used: $creditsUsed'),
-          Text('Remaining: $remainingCredits'),
-          Text('Processing Time: ${processingTime}s'),
+  // STEP 4: Display result
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    
+    // Get the generated headshot URL
+    final headshotUrl = data['data']['url'];
+    final creditsUsed = data['data']['creditsUsed'];
+    final remainingCredits = data['data']['remainingCredits'];
+    final processingTime = data['data']['processingTime'];
+    
+    // Display the image
+    Image.network(headshotUrl);
+    
+    // Show success message
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('✨ Headshot Generated!'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.network(headshotUrl),
+            SizedBox(height: 16),
+            Text('Credits Used: $creditsUsed'),
+            Text('Remaining: $remainingCredits'),
+            Text('Processing Time: ${processingTime}s'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Download or share the image
+              downloadImage(headshotUrl);
+            },
+            child: Text('Download'),
+          ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text('Close'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // Download or share the image
-            downloadImage(headshotUrl);
-          },
-          child: Text('Download'),
-        ),
-      ],
-    ),
-  );
+    );
+  }
 }
 ```
 
@@ -189,9 +225,20 @@ if (response.statusCode == 200) {
 ## 🔄 Complete Flutter Flow Example
 
 ```dart
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+
 class HeadshotService {
+  // Convert image file to base64
+  Future<String> convertImageToBase64(File imageFile) async {
+    final bytes = await imageFile.readAsBytes();
+    return 'data:image/jpeg;base64,${base64Encode(bytes)}';
+  }
+
   Future<HeadshotResult?> generateHeadshot({
-    required String imageUrl,
+    required String imageBase64,  // ✅ Now accepts base64
     required String style,
     required String aspectRatio,
     required String authToken,
@@ -204,7 +251,7 @@ class HeadshotService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'imageUrl': imageUrl,
+          'imageUrl': imageBase64,  // Send base64 string
           'style': style,
           'aspectRatio': aspectRatio,
         }),
@@ -286,37 +333,59 @@ class HeadshotResult {
 
 ## 📊 What Happens Behind the Scenes
 
-```mermaid
-User Uploads Image → Firebase Storage
-                ↓
-          Gets Firebase URL
-                ↓
-    Sends URL to Backend (/api/headshots/generate)
-                ↓
-  Backend Downloads Image from Firebase URL
-                ↓
-    Backend Converts Image to Base64
-                ↓
-     Backend Sends Base64 to GetImg.ai
-                ↓
-    GetImg.ai Generates Professional Headshot
-                ↓
-   Backend Returns GetImg.ai URL to Frontend
-                ↓
-      App Displays Generated Headshot ✨
+### Option 1: Base64 Flow (RECOMMENDED) ✅
 ```
+User Selects Image in App
+        ↓
+App Converts Image to Base64
+        ↓
+App Sends Base64 to Backend (/api/headshots/generate)
+        ↓
+Backend Sends Base64 to GetImg.ai
+        ↓
+GetImg.ai Generates Professional Headshot
+        ↓
+Backend Returns GetImg.ai URL to Frontend
+        ↓
+App Displays Generated Headshot ✨
+```
+
+### Option 2: URL Flow (Also Supported) ⚠️
+```
+User Uploads Image → Firebase Storage
+        ↓
+Gets Firebase URL
+        ↓
+App Sends URL to Backend
+        ↓
+Backend Downloads Image from URL
+        ↓
+Backend Converts to Base64
+        ↓
+Backend Sends Base64 to GetImg.ai
+        ↓
+GetImg.ai Generates Professional Headshot
+        ↓
+Backend Returns GetImg.ai URL to Frontend
+        ↓
+App Displays Generated Headshot ✨
+```
+
+**💡 Recommendation:** Use **Option 1 (Base64)** - it's faster and doesn't require Firebase upload!
 
 ---
 
 ## 🎯 Key Points for Frontend Developers
 
-1. ✅ **No history saved in V1** - Each generation is stateless
-2. ✅ **Immediate response** - User gets the URL right away
-3. ✅ **Download/Share immediately** - URL is valid and can be saved
-4. ✅ **Check `statusCode`** in response body, not just HTTP status
-5. ✅ **Handle all error cases** - 401, 402, 400, 422, 500
-6. ✅ **Show remaining credits** - Display after each generation
-7. ✅ **Processing time** - Can show loading indicator with estimated time
+1. ✅ **Send base64, not URL** - Convert image to base64 in the app
+2. ✅ **No Firebase upload needed** - Direct base64 transmission
+3. ✅ **No history saved in V1** - Each generation is stateless
+4. ✅ **Immediate response** - User gets the URL right away
+5. ✅ **Download/Share immediately** - URL is valid and can be saved
+6. ✅ **Check `statusCode`** in response body, not just HTTP status
+7. ✅ **Handle all error cases** - 401, 402, 400, 422, 500
+8. ✅ **Show remaining credits** - Display after each generation
+9. ✅ **Processing time** - Can show loading indicator with estimated time
 
 ---
 
@@ -334,8 +403,10 @@ But for **V1.0**, it's **simple and stateless** - just like image-to-image! 🎉
 
 ## 📝 Testing Checklist
 
-- [ ] Upload image to Firebase
-- [ ] Send Firebase URL to backend
+### For Base64 Flow (Recommended)
+- [ ] Select image from gallery/camera
+- [ ] Convert image to base64 string
+- [ ] Send base64 to backend
 - [ ] Receive generated headshot URL
 - [ ] Display image in app
 - [ ] Download/share functionality works
@@ -343,3 +414,12 @@ But for **V1.0**, it's **simple and stateless** - just like image-to-image! 🎉
 - [ ] Error handling for all cases
 - [ ] Loading indicator during processing
 - [ ] Success message shows credits used
+
+### For URL Flow (Also Works)
+- [ ] Upload image to Firebase
+- [ ] Get Firebase URL
+- [ ] Send URL to backend
+- [ ] Backend downloads and converts
+- [ ] Receive generated headshot URL
+- [ ] Display image in app
+- [ ] All other checks same as above
