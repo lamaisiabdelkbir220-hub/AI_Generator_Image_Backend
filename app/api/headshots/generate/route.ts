@@ -78,12 +78,13 @@ export async function POST(req: Request) {
     const [generation] = await db.insert(schema.headshotGenerations)
       .values({
         userId: authUser.id,
-        styleId: headshotStyle.id,
+        style: headshotStyle.id,
         originalImageUrl: data.imageUrl,
         status: 'processing',
         aspectRatio: data.aspectRatio,
         quality: 'high',
-        batchSize: 1
+        batchSize: 1,
+        creditsUsed: totalCost
       })
       .returning();
 
