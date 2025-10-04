@@ -111,8 +111,8 @@ export const HEADSHOT_STYLES = [
     name: "Corporate",
     description: "Professional business headshots with formal attire",
     previewUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    promptTemplate: "Generate a realistic corporate headshot of the uploaded person. Preserve identity exactly: keep the same face shape, natural hair, eye color, and skin tone as in the original photo. No alterations to facial features. Clothing: replace with professional business attire — a tailored dark blazer or suit jacket over a light collared shirt. Ensure it looks natural, fitted, and realistic. Background: neutral, minimal, professional (soft light gray, white, or gradient), with no distractions. Lighting: studio-quality, soft and even across the face, with no harsh shadows. Expression: confident, approachable, natural smile. Final result: sharp focus, high-resolution, realistic skin texture, must look like an authentic professional photo, not AI-stylized.",
-    negativePrompt: "casual clothes, messy hair, poor lighting, cluttered background, AI-stylized, cartoonish, unrealistic",
+    promptTemplate: "PHOTOREALISTIC professional corporate headshot photograph, DSLR camera quality, real photograph. Person: preserve exact facial identity, face shape, natural hair texture, eye color, and skin tone from original photo - NO modifications to facial features. Clothing: high-quality professional business attire - tailored dark blazer or suit jacket, crisp collared shirt, natural fabric texture and fit. Background: clean neutral professional backdrop (soft gray, white, or subtle gradient), studio photography setup. Lighting: professional studio lighting, soft even illumination, natural skin tones, authentic photography lighting setup. Expression: confident, approachable, natural. Technical: shot on professional DSLR camera, 85mm portrait lens, f/2.8, sharp focus on eyes, natural depth of field, authentic photograph quality, real skin pores and texture visible, completely photorealistic, looks exactly like a real professional headshot taken by a photographer, NOT digital art, NOT illustration, NOT AI-generated look.",
+    negativePrompt: "illustration, painting, drawing, digital art, sketch, rendered, CG, 3d render, cartoon, anime, stylized, artistic, fake, plastic skin, smooth skin, airbrushed, oversaturated colors, unnatural, AI-generated look, casual clothes, poor lighting",
     creditCost: 5,
     isPremium: false,
     category: "business",
@@ -231,12 +231,12 @@ export const HEADSHOT_ASPECT_RATIOS = [
 ] as const;
 
 export const HEADSHOT_GEN_OPTIONS = {
-  model: "stable-diffusion-xl-v1-0",
-  negative_prompt: "blurry, low quality, distorted face, multiple people, full body, landscape, cluttered background, amateur photography, poor lighting, noise, artifacts",
+  model: "realistic-vision-v5",  // Better model for photorealistic portraits
+  negative_prompt: "illustration, painting, drawing, art, sketch, cartoon, anime, manga, render, CG, 3d, digital art, concept art, blurry, low quality, distorted face, multiple people, full body, landscape, cluttered background, amateur photography, poor lighting, noise, artifacts, watermark, text, logo, oversaturated, plastic skin, airbrushed, fake, unrealistic",
   guidance: 7.5,
-  strength: 0.8, // Important for headshots - preserve face structure
+  strength: 0.75, // Slightly lower to allow more photorealism while preserving identity
   output_format: 'jpeg',
-  scheduler: 'euler',
+  scheduler: 'dpmsolver++',  // Better for photorealistic results
   response_format: 'url'
 } as const;
 

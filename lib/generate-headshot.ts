@@ -115,12 +115,13 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
 
 function buildHeadshotPrompt(styleTemplate: string, quality: string): string {
   const qualityModifiers: Record<string, string> = {
-    standard: "professional photography",
-    high: "high-quality professional photography, sharp focus",
-    ultra: "ultra high-quality professional photography, sharp focus, studio lighting, commercial grade"
+    standard: "professional photography, photorealistic, real photograph",
+    high: "high-quality professional photography, photorealistic, real photograph, DSLR quality, sharp focus, natural lighting",
+    ultra: "ultra high-quality professional photography, photorealistic, real photograph taken with professional DSLR camera, sharp focus, studio lighting, commercial grade, natural skin texture, authentic photography"
   };
   
-  return `${styleTemplate}, ${qualityModifiers[quality] || qualityModifiers.high}, headshot, portrait, professional, clean composition, centered subject`;
+  // Add strong photorealism keywords
+  return `${styleTemplate}, ${qualityModifiers[quality] || qualityModifiers.high}, professional headshot portrait, real photograph, authentic photography, natural skin pores and texture, photorealistic human, centered composition`;
 }
 
 function buildNegativePrompt(styleNegative?: string): string {
