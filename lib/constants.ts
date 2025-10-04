@@ -236,7 +236,7 @@ export const HEADSHOT_GEN_OPTIONS = {
   guidance: 7.5,
   strength: 0.75, // Slightly lower to allow more photorealism while preserving identity
   output_format: 'jpeg',
-  scheduler: 'dpmsolver++',  // Better for photorealistic results
+  scheduler: 'euler',  // Valid scheduler for GetImg.ai
   response_format: 'url'
 } as const;
 
