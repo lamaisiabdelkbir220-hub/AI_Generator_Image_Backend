@@ -158,51 +158,61 @@ export const HEADSHOT_STYLES = [
     id: "creative",
     name: "Creative",
     description: "Artistic and expressive creative professional portraits",
+    previewUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic creative headshot of the uploaded person. Preserve identity exactly: maintain the same face shape, natural hair, eye color, and skin tone as in the original photo. No modifications to facial features. Clothing: replace with stylish, modern, and slightly artistic attire — such as a trendy jacket, colorful shirt, or casual-chic outfit. Ensure the clothes look fitted, natural, and realistic. Background: vibrant, modern, or abstract — soft pastel tones, blurred street art, or light geometric patterns. Should feel innovative but not overpowering. Lighting: artistic yet professional — natural daylight or softly diffused colored light with creative accents. Avoid harsh shadows. Expression: expressive, approachable, confident, with a spark of personality. Final result: high-resolution, sharp detail, realistic skin texture, creative and modern look while remaining authentic.",
     negativePrompt: "conservative business attire, plain background, boring composition, harsh shadows, overpowering background, unrealistic",
     creditCost: 3,
     isPremium: false,
-    category: "creative"
+    category: "creative",
+    tags: ["creative", "artistic", "designer", "modern"]
   },
   {
     id: "lifestyle",
     name: "Lifestyle",
     description: "Natural and relatable lifestyle portraits",
+    previewUrl: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic lifestyle headshot of the uploaded person. Preserve identity exactly: keep the same facial structure, hairstyle, eye color, and skin tone as in the original photo. No changes to features. Clothing: casual yet polished — well-fitted shirt, light sweater, or relaxed blazer. Neutral or warm tones, avoiding logos and heavy patterns. Background: natural and relatable — outdoor café, park, modern city street, or softly blurred home interior. Must look authentic. Lighting: natural daylight or warm golden-hour style. Balanced and flattering, no artificial-looking effects. Expression: relaxed, approachable, authentic smile or natural candid look. Final result: high-resolution, realistic, lifestyle-inspired photo suitable for social media, personal branding, or casual professional use.",
     negativePrompt: "logos, heavy patterns, artificial lighting, stiff posing, overly formal attire, unrealistic background",
     creditCost: 3,
     isPremium: false,
-    category: "lifestyle"
+    category: "lifestyle",
+    tags: ["lifestyle", "casual", "natural", "social"]
   },
   {
     id: "editorial",
     name: "Editorial",
     description: "Magazine-quality editorial portraits",
+    previewUrl: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic editorial-style headshot of the uploaded person. Preserve identity exactly: keep the same face shape, hairstyle, eye color, and skin tone as in the original photo. No alterations to facial features. Clothing: high-fashion or striking editorial wardrobe — stylish blazer, bold top, or modern tailored piece. Clean lines and statement looks preferred. Background: studio or minimalist backdrop with bold contrasts (white, black, deep tones, or textured gradient). Should feel magazine-like. Lighting: dramatic editorial lighting — directional, with subtle shadows and highlights to sculpt the face. Expression: strong, confident, with subtle intensity or character. No exaggerated smiles. Final result: sharp detail, high-resolution, magazine-quality aesthetic, sophisticated and professional.",
     negativePrompt: "amateur photography, poor composition, basic lighting, unprofessional styling, exaggerated smiles, low quality",
     creditCost: 5,
     isPremium: true,
-    category: "premium"
+    category: "premium",
+    tags: ["editorial", "magazine", "fashion", "high-end"]
   },
   {
     id: "cinematic",
     name: "Cinematic",
     description: "Dramatic cinematic lighting and composition",
+    previewUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic cinematic-style headshot of the uploaded person. Preserve identity exactly: maintain the original face shape, hair, eye color, and skin tone without altering features. Clothing: simple but stylish — fitted jacket, dark-toned shirt, or neutral wardrobe that fits cinematic drama. Background: cinematic setting with depth — blurred city lights at night, softly lit indoors, or natural outdoor with atmospheric tones. Lighting: dramatic and moody — directional light with cinematic color grading (warm tones, teal & orange, or soft shadows). Expression: natural but powerful — thoughtful, confident, with cinematic presence. Final result: high-resolution, film-quality image with depth, texture, and authentic cinematic feel.",
     negativePrompt: "flat lighting, amateur composition, poor contrast, unprofessional quality, bright harsh lighting, unrealistic colors",
     creditCost: 5,
     isPremium: true,
-    category: "premium"
+    category: "premium",
+    tags: ["cinematic", "dramatic", "film", "moody"]
   },
   {
     id: "environmental",
     name: "Environmental",
     description: "Real-world contextual professional portraits",
+    previewUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
     promptTemplate: "Generate a realistic environmental headshot of the uploaded person. Preserve identity exactly: keep the same face shape, natural hair, eye color, and skin tone from the original photo. No modifications to facial features. Clothing: professional or casual attire that fits the chosen environment — office wear for workplace, casual smart for outdoor, or field-appropriate clothing. Background: real-world contextual environment — blurred office interior, university hallway, outdoor urban street, or natural green landscape. Must support but not distract. Lighting: natural or soft professional lighting to match the environment — daylight for outdoors, balanced studio light for indoors. Expression: approachable, authentic, naturally engaged. Final result: high-resolution, sharp detail, realistic environmental context while keeping focus on the subject.",
     negativePrompt: "distracting background, inappropriate clothing for environment, harsh artificial lighting, poor focus on subject, unrealistic setting",
     creditCost: 3,
     isPremium: false,
-    category: "specialized"
+    category: "specialized",
+    tags: ["environmental", "contextual", "workplace", "natural"]
   }
 ] as const;
 
