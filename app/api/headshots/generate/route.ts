@@ -1,0 +1,167 @@
+import db from "@/db";
+import * as schema from '@/db/schema';
+import { auth } from "@/lib/auth";
+import { HEADSHOT_STYLES, HEADSHOT_COSTS, HEADSHOT_ASPECT_RATIOS } from "@/lib/constants";
+import { generateHeadshot, isValidImageUrl, estimateProcessingTime } from "@/lib/generate-headshot";
+import { headshotGenerateSchema } from "@/lib/validator";
+import type { IGetImgResponseType } from "@/types";
+import { eq, sql } from "drizzle-orm";
+import { addCreditHistory } from "@/backend/credit-histories";
+
+export async function POST(req: Request) {
+  const authUser = await auth(req);
+
+  if (!authUser)
+    return Response.json({ 
+      message: 'Authentication required', 
+      data: null, 
+      statusCode: 401 
+    }, { status: 401 });
+
+  try {
+    const rawData = await req.json();
+    const { success, data, error } = headshotGenerateSchema.safeParse(rawData);
+
+    if (!success)
+      return Response.json({ 
+        message: 'Validation failed', 
+        data: null, 
+        statusCode: 422,
+        errors: error.issues 
+      }, { status: 422 });
+
+    // Validate image URL format
+    if (!isValidImageUrl(data.imageUrl))
+      return Response.json({ 
+        message: 'Invalid image URL format', 
+        data: null, 
+        statusCode: 400 
+      }, { status: 400 });
+
+    // Validate headshot style
+    const headshotStyle = HEADSHOT_STYLES.find(style => style.id === data.style);
+    if (!headshotStyle)
+      return Response.json({ 
+        message: 'Invalid headshot style', 
+        data: null, 
+        statusCode: 400 
+      }, { status: 400 });
+
+    // Validate aspect ratio
+    const aspectRatio = HEADSHOT_ASPECT_RATIOS.find(ratio => ratio.ratio === data.aspectRatio);
+    if (!aspectRatio)
+      return Response.json({ 
+        message: 'Invalid aspect ratio', 
+        data: null, 
+        statusCode: 400 
+      }, { status: 400 });
+
+    // Calculate total cost - simplified to single cost for all headshots
+    const totalCost = HEADSHOT_COSTS.base_cost;
+
+    // Check user credits
+    const [user] = await db.select().from(schema.users).where(eq(schema.users.id, authUser.id));
+    if (user.credits < totalCost)
+      return Response.json({ 
+        message: 'Insufficient credits', 
+        data: {
+          required: totalCost,
+          available: user.credits,
+          shortfall: totalCost - user.credits
+        }, 
+        statusCode: 402 
+      }, { status: 402 });
+
+    console.log(`Headshot generation started for user ${authUser.id}`);
+
+    // Generate headshot using AI service (V1: Stateless - no database save)
+    const startTime = Date.now();
+    
+    const headshotResponse = await generateHeadshot({
+      imageUrl: data.imageUrl,
+      style: {
+        promptTemplate: headshotStyle.promptTemplate,
+        negativePrompt: headshotStyle.negativePrompt
+      },
+      aspectRatio: aspectRatio,
+      quality: 'high', // Fixed quality
+      batchSize: 1 // Always single generation
+    });
+
+    const processingTime = Math.floor((Date.now() - startTime) / 1000);
+
+    if (headshotResponse?.error) {
+      console.error(`Headshot generation failed for user ${authUser.id}:`, headshotResponse.error);
+      
+      return Response.json({ 
+        message: 'Headshot generation failed', 
+        data: {
+          error: headshotResponse.error.message
+        }, 
+        statusCode: 400 
+      }, { status: 400 });
+    }
+
+    // Deduct credits and add credit history
+    await addCreditHistory(user.id, -totalCost, 'HEADSHOT_GEN');
+    await db.update(schema.users)
+      .set({ credits: sql<number>`${schema.users.credits}-${totalCost}` })
+      .where(eq(schema.users.id, authUser.id));
+
+    console.log(`Headshot generated successfully for user ${authUser.id}. Cost: ${totalCost} credits, Processing time: ${processingTime}s`);
+
+    // V1: Return result immediately (stateless - no history saved)
+    return Response.json({ 
+      message: 'Headshot generated successfully', 
+      data: {
+        url: headshotResponse.urls[0], // Return single URL
+        creditsUsed: totalCost,
+        remainingCredits: user.credits - totalCost,
+        processingTime: processingTime,
+        style: headshotStyle.name
+      }, 
+      statusCode: 200 
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error("Error in headshot generation:", error);
+    return Response.json({ 
+      message: "Unable to process headshot request at the moment.", 
+      data: null, 
+      statusCode: 500 
+    }, { status: 500 });
+  }
+}
+
+// GET endpoint to retrieve available styles and configuration
+export async function GET(req: Request) {
+  try {
+    return Response.json({
+      message: 'Headshot configuration retrieved',
+      data: {
+        styles: HEADSHOT_STYLES.map(style => ({
+          id: style.id,
+          name: style.name,
+          description: style.description,
+          creditCost: style.creditCost,
+          isPremium: style.isPremium
+        })),
+        aspectRatios: HEADSHOT_ASPECT_RATIOS,
+        qualityOptions: [
+          { level: 'standard', credits: HEADSHOT_COSTS.base_cost, description: 'Good quality - Fast processing' },
+          { level: 'high', credits: HEADSHOT_COSTS.base_cost, description: 'High quality - Balanced speed and quality' },
+          { level: 'ultra', credits: HEADSHOT_COSTS.base_cost, description: 'Ultra quality - Best results' }
+        ],
+        costs: HEADSHOT_COSTS
+      },
+      statusCode: 200
+    }, { status: 200 });
+  } catch (error) {
+    console.error("Error retrieving headshot config:", error);
+    return Response.json({
+      message: "Unable to retrieve configuration",
+      data: null,
+      statusCode: 500
+    }, { status: 500 });
+  }
+}

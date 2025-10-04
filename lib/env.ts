@@ -9,6 +9,7 @@ const envSchema = z.object({
   CONTACT_EMAIL: z.email().default('contact@example.com'),
   WEBSITE_URL: z.string().default('https://example.com'),
   FIREBASE_SERVICE_ACCOUNT_BASE64: z.string().optional(),
+  CRON_SECRET: z.string().optional(), // Secret for protecting cron endpoints
 });
 
 // Parse environment variables with fallbacks during build time

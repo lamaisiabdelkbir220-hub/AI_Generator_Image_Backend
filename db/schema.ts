@@ -1,6 +1,7 @@
 import {
     boolean,
     integer,
+    jsonb,
     pgEnum,
     pgTable,
     serial,
@@ -39,3 +40,32 @@ export const creditHistories = pgTable("credit_histories", {
     type: varchar("type", { length: 100 }).notNull(),
     ...timestamps,
 });
+
+// Headshot generation status enum
+export const headshotStatusEnum = pgEnum("headshot_status_enum", ["queued", "processing", "completed", "failed"]);
+
+// Headshot quality enum
+export const headshotQualityEnum = pgEnum("headshot_quality_enum", ["standard", "high", "ultra"]);
+
+// Headshot generations table
+export const headshotGenerations = pgTable("headshot_generations", {
+    id: serial().primaryKey().notNull(),
+    userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    originalImageUrl: varchar("original_image_url", { length: 500 }),
+    style: varchar("style", { length: 50 }).notNull(),
+    aspectRatio: varchar("aspect_ratio", { length: 10 }).notNull(),
+    quality: headshotQualityEnum("quality").default("high"),
+    batchSize: integer("batch_size").default(1),
+    status: headshotStatusEnum("status").default("queued"),
+    creditsUsed: integer("credits_used").notNull(),
+    progress: integer("progress").default(0),
+    resultUrls: jsonb("result_urls"), // Store array of generated image URLs
+    processingTime: integer("processing_time"), // Seconds taken to process
+    errorMessage: text("error_message"),
+    metadata: jsonb("metadata"),
+    isFavorite: boolean("is_favorite").default(false),
+    ...timestamps,
+});
+
+// Note: Headshot styles are managed in lib/constants.ts (HEADSHOT_STYLES)
+// No database table needed - styles are hardcoded for better performance
