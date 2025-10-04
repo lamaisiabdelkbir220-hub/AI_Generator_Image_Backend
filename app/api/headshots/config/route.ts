@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     const premium = url.searchParams.get('premium');
 
     // Filter styles based on query parameters
-    let filteredStyles = HEADSHOT_STYLES;
+    let filteredStyles = [...HEADSHOT_STYLES]; // Create mutable copy
     
     if (category) {
       filteredStyles = getHeadshotStylesByCategory(category);
