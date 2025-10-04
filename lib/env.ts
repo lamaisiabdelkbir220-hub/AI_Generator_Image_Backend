@@ -2,6 +2,7 @@ import z from "zod";
 
 const envSchema = z.object({
   GETIMAGE_AI_TOKEN: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(), // Google Gemini API key for headshot generation
   DATABASE_URL: z.string().optional(),
   TOKEN_SECRET: z.string().default('your-token-secret'),
   TOKEN_EXPIRE_IN: z.string().default('1d'),
@@ -22,7 +23,7 @@ export default new Proxy(parsedEnv, {
     
     // During runtime, check if critical env vars are missing
     if (typeof window === 'undefined' && process.env.NODE_ENV !== 'development') {
-      if ((prop === 'DATABASE_URL' || prop === 'GETIMAGE_AI_TOKEN' || prop === 'FIREBASE_SERVICE_ACCOUNT_BASE64') && !value) {
+      if ((prop === 'DATABASE_URL' || prop === 'GEMINI_API_KEY' || prop === 'FIREBASE_SERVICE_ACCOUNT_BASE64') && !value) {
         console.warn(`Missing environment variable: ${String(prop)}`);
       }
     }

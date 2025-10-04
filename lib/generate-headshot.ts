@@ -17,6 +17,127 @@ interface HeadshotGenerationParams {
 }
 
 export async function generateHeadshot(params: HeadshotGenerationParams) {
+  // ============================================================================
+  // GEMINI 2.0 FLASH WITH IMAGEN 3 - ACTIVE FOR FACE PRESERVATION
+  // ============================================================================
+  
+  try {
+    // Convert image URL to base64 if needed
+    const imageBase64 = await convertImageToBase64(params.imageUrl);
+    
+    // Build comprehensive prompt for headshot
+    const prompt = buildHeadshotPrompt(params.style.promptTemplate, params.quality);
+    
+    const results: string[] = [];
+
+    // Generate headshots using Gemini 2.0 with Imagen
+    for (let i = 0; i < params.batchSize; i++) {
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${env.GEMINI_API_KEY}`;
+      
+      // Gemini 2.0 Flash with image generation enabled
+      const requestBody = {
+        contents: [{
+          parts: [
+            {
+              text: `Transform this photo into a professional headshot: ${prompt}\n\nCRITICAL: Preserve the EXACT facial features, hair color, eye color, skin tone, and facial structure from the original photo. ONLY change the clothing and background. The person must remain completely identical.`
+            },
+            {
+              inline_data: {
+                mime_type: "image/jpeg",
+                data: imageBase64
+              }
+            }
+          ]
+        }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 8192,
+          responseModalities: ["Text", "Image"] // Enable image generation
+        }
+      };
+
+      const response = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok || data?.error) {
+        console.error(`Gemini headshot generation error (batch ${i + 1}):`, data?.error || data);
+        if (i === 0) {
+          return {
+            error: {
+              type: 'api_error',
+              code: data?.error?.code || 'generation_failed',
+              message: data?.error?.message || 'Failed to generate headshot with Gemini'
+            },
+            urls: []
+          };
+        }
+        break;
+      }
+      
+      // Extract image from Gemini response
+      if (data?.candidates?.[0]?.content?.parts) {
+        for (const part of data.candidates[0].content.parts) {
+          if (part.inlineData?.data) {
+            // Convert base64 to data URL
+            const imageDataUrl = `data:image/png;base64,${part.inlineData.data}`;
+            results.push(imageDataUrl);
+            break; // Only take first image
+          }
+        }
+      }
+
+      // Add small delay between batch requests
+      if (i < params.batchSize - 1) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+    
+    if (results.length === 0) {
+      return {
+        error: {
+          type: 'api_error',
+          code: 'no_image_generated',
+          message: 'Gemini did not return any generated images'
+        },
+        urls: []
+      };
+    }
+    
+    return {
+      urls: results,
+      cost: 0,
+      batchSize: results.length,
+      requestedBatchSize: params.batchSize
+    } as IGetImgResponseType & { 
+      urls: string[]; 
+      cost: number; 
+      batchSize: number; 
+      requestedBatchSize: number; 
+    };
+    
+  } catch (error) {
+    console.error("Headshot generation error:", error);
+    return {
+      error: {
+        type: 'network_error',
+        code: 'request_failed',
+        message: error instanceof Error ? error.message : 'Network request failed'
+      },
+      urls: []
+    };
+  }
+  
+  // ============================================================================
+  // GETIMG.AI (STABLE DIFFUSION XL) - COMMENTED OUT - CAN BE RESTORED
+  // ============================================================================
+  /*
   const url = `${GET_IMG_BASE_URL}/stable-diffusion-xl/image-to-image`;
   
   const [width, height] = params.aspectRatio.resolution.split('x').map(Number);
@@ -111,6 +232,7 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
       urls: []
     };
   }
+  */
 }
 
 function buildHeadshotPrompt(styleTemplate: string, quality: string): string {
