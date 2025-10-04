@@ -213,9 +213,11 @@ export const HEADSHOT_COSTS = {
 } as const;
 
 export const HEADSHOT_ASPECT_RATIOS = [
-  { ratio: "1:1", resolution: "1024x1024", description: "Square - LinkedIn, social profiles" },
-  { ratio: "3:4", resolution: "768x1024", description: "Portrait - Traditional headshots" },
-  { ratio: "4:5", resolution: "819x1024", description: "Portrait+ - Instagram, print" }
+  { ratio: "1:1", resolution: "1024x1024", description: "Square" },
+  { ratio: "3:4", resolution: "768x1024", description: "Classic" },
+  { ratio: "4:5", resolution: "819x1024", description: "Portrait" },
+  { ratio: "9:16", resolution: "720x1280", description: "Vertical" },
+  { ratio: "16:9", resolution: "1280x720", description: "Wide" }
 ] as const;
 
 export const HEADSHOT_GEN_OPTIONS = {
