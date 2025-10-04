@@ -236,11 +236,13 @@ void onHeadshotGenerated(String url) {
 - ✅ `HEADSHOT_V2_ROADMAP.md` - Future features plan
 - ✅ `HEADSHOT_V1_SIMPLIFIED.md` - This document
 
-### Not Needed Anymore (V1.0):
-- ❌ `lib/cleanup-images.ts` - No cleanup needed
-- ❌ `app/api/cleanup/images/route.ts` - No cleanup needed
-- ❌ `vercel.json` cron job - No cleanup needed
-- ⚠️ Note: Keep these files for V2.0 migration
+### Not Needed for V1.0:
+- ⚠️ `lib/cleanup-images.ts` - Keep for V2.0 migration
+- ⚠️ `lib/firebase-storage.ts` - Keep for V2.0 migration
+- ⚠️ `app/api/cleanup/images/route.ts` - Keep for V2.0 migration
+- ✅ `vercel.json` - **REMOVED** (no cron job needed!)
+
+**Note:** Files kept for when you implement V2.0 with history feature
 
 ---
 
