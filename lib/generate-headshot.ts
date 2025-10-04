@@ -111,13 +111,13 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
 }
 
 function buildHeadshotPrompt(styleTemplate: string, quality: string): string {
-  const qualityModifiers = {
+  const qualityModifiers: Record<string, string> = {
     standard: "professional photography",
     high: "high-quality professional photography, sharp focus",
     ultra: "ultra high-quality professional photography, sharp focus, studio lighting, commercial grade"
   };
   
-  return `${styleTemplate}, ${qualityModifiers[quality]}, headshot, portrait, professional, clean composition, centered subject`;
+  return `${styleTemplate}, ${qualityModifiers[quality] || qualityModifiers.high}, headshot, portrait, professional, clean composition, centered subject`;
 }
 
 function buildNegativePrompt(styleNegative?: string): string {
