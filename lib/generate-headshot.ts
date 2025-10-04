@@ -18,7 +18,7 @@ interface HeadshotGenerationParams {
 
 export async function generateHeadshot(params: HeadshotGenerationParams) {
   // ============================================================================
-  // GEMINI 2.0 FLASH WITH IMAGEN 3 - ACTIVE FOR FACE PRESERVATION
+  // GEMINI 2.5 FLASH IMAGE (NANO BANANA) - ACTIVE FOR PERFECT FACE PRESERVATION
   // ============================================================================
   
   try {
@@ -30,9 +30,9 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
     
     const results: string[] = [];
 
-    // Generate headshots using Gemini 2.0 with Imagen
+    // Generate headshots using Gemini 2.5 Flash Image (Nano Banana)
     for (let i = 0; i < params.batchSize; i++) {
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${env.GEMINI_API_KEY}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${env.GEMINI_API_KEY}`;
       
       // Gemini 2.0 Flash with image generation enabled
       const requestBody = {
