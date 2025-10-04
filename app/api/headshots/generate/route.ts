@@ -79,7 +79,7 @@ export async function POST(req: Request) {
       .values({
         userId: authUser.id,
         style: headshotStyle.id,
-        originalImageUrl: data.imageUrl,
+        originalImageUrl: null, // Don't save base64 images (too large for varchar)
         status: 'processing',
         aspectRatio: data.aspectRatio,
         quality: 'high',
