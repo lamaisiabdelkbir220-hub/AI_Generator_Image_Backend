@@ -74,7 +74,22 @@ export async function POST(req: Request) {
 
     console.log(`Headshot generation started for user ${authUser.id}`);
 
-    // Generate headshot using AI service (V1: Stateless - no database save)
+    // Create initial generation record for tracking (TESTING)
+    const [generation] = await db.insert(schema.headshotGenerations)
+      .values({
+        userId: authUser.id,
+        styleId: headshotStyle.id,
+        originalImageUrl: data.imageUrl,
+        status: 'processing',
+        aspectRatio: data.aspectRatio,
+        quality: 'high',
+        batchSize: 1
+      })
+      .returning();
+
+    console.log(`Created generation record ${generation.id} for tracking`);
+
+    // Generate headshot using AI service
     const startTime = Date.now();
     
     const headshotResponse = await generateHeadshot({
@@ -84,8 +99,8 @@ export async function POST(req: Request) {
         negativePrompt: headshotStyle.negativePrompt
       },
       aspectRatio: aspectRatio,
-      quality: 'high', // Fixed quality
-      batchSize: 1 // Always single generation
+      quality: 'high',
+      batchSize: 1
     });
 
     const processingTime = Math.floor((Date.now() - startTime) / 1000);
@@ -93,14 +108,32 @@ export async function POST(req: Request) {
     if (headshotResponse?.error) {
       console.error(`Headshot generation failed for user ${authUser.id}:`, headshotResponse.error);
       
+      // Update generation record to failed
+      await db.update(schema.headshotGenerations)
+        .set({
+          status: 'failed',
+          errorMessage: headshotResponse.error.message
+        })
+        .where(eq(schema.headshotGenerations.id, generation.id));
+      
       return Response.json({ 
         message: 'Headshot generation failed', 
         data: {
-          error: headshotResponse.error.message
+          error: headshotResponse.error.message,
+          generationId: generation.id
         }, 
         statusCode: 400 
       }, { status: 400 });
     }
+
+    // Update generation record with success
+    await db.update(schema.headshotGenerations)
+      .set({
+        status: 'completed',
+        resultUrls: headshotResponse.urls,
+        processingTime: processingTime
+      })
+      .where(eq(schema.headshotGenerations.id, generation.id));
 
     // Deduct credits and add credit history
     await addCreditHistory(user.id, -totalCost, 'HEADSHOT_GEN');
@@ -108,13 +141,14 @@ export async function POST(req: Request) {
       .set({ credits: sql<number>`${schema.users.credits}-${totalCost}` })
       .where(eq(schema.users.id, authUser.id));
 
-    console.log(`Headshot generated successfully for user ${authUser.id}. Cost: ${totalCost} credits, Processing time: ${processingTime}s`);
+    console.log(`Headshot generated successfully for user ${authUser.id}. Generation ID: ${generation.id}, URL: ${headshotResponse.urls[0]?.substring(0, 50)}..., Cost: ${totalCost} credits, Processing time: ${processingTime}s`);
 
-    // V1: Return result immediately (stateless - no history saved)
+    // Return result with generation tracking
     return Response.json({ 
       message: 'Headshot generated successfully', 
       data: {
-        url: headshotResponse.urls[0], // Return single URL
+        generationId: generation.id, // For debugging
+        url: headshotResponse.urls[0],
         creditsUsed: totalCost,
         remainingCredits: user.credits - totalCost,
         processingTime: processingTime,
