@@ -1,0 +1,196 @@
+{
+  "message": "Headshot configuration retrieved",
+  "data": {
+    "styles": [
+      {
+        "id": "corporate",
+        "name": "Corporate",
+        "description": "Professional business headshots for LinkedIn and corporate profiles",
+        "category": "business",
+        "creditCost": 3,
+        "isPremium": false
+      },
+      {
+        "id": "actor",
+        "name": "Actor",
+        "description": "Entertainment industry headshots for auditions",
+        "category": "entertainment",
+        "creditCost": 4,
+        "isPremium": true
+      },
+      {
+        "id": "model",
+        "name": "Model",
+        "description": "Fashion and commercial modeling portraits",
+        "category": "entertainment",
+        "creditCost": 4,
+        "isPremium": true
+      },
+      {
+        "id": "executive",
+        "name": "Executive",
+        "description": "High-level executive portraits with commanding presence",
+        "category": "premium",
+        "creditCost": 4,
+        "isPremium": true
+      },
+      {
+        "id": "creative",
+        "name": "Creative",
+        "description": "Artistic and expressive creative professional portraits",
+        "category": "creative",
+        "creditCost": 3,
+        "isPremium": false
+      },
+      {
+        "id": "lifestyle",
+        "name": "Lifestyle",
+        "description": "Natural and relatable lifestyle portraits",
+        "category": "lifestyle",
+        "creditCost": 3,
+        "isPremium": false
+      },
+      {
+        "id": "editorial",
+        "name": "Editorial",
+        "description": "Magazine-quality editorial portraits",
+        "category": "premium",
+        "creditCost": 5,
+        "isPremium": true
+      },
+      {
+        "id": "cinematic",
+        "name": "Cinematic",
+        "description": "Film-style dramatic portraits",
+        "category": "premium",
+        "creditCost": 5,
+        "isPremium": true
+      },
+      {
+        "id": "environmental",
+        "name": "Environmental",
+        "description": "Professional portraits in natural workplace settings",
+        "category": "specialized",
+        "creditCost": 4,
+        "isPremium": true
+      }
+    ],
+    "categories": [
+      {
+        "id": "business",
+        "name": "Business Professional",
+        "description": "Corporate and business headshots",
+        "icon": "💼"
+      },
+      {
+        "id": "creative",
+        "name": "Creative Professional",
+        "description": "Artistic and creative portraits",
+        "icon": "🎨"
+      },
+      {
+        "id": "entertainment",
+        "name": "Entertainment",
+        "description": "Acting and modeling headshots",
+        "icon": "🎭"
+      },
+      {
+        "id": "lifestyle",
+        "name": "Lifestyle",
+        "description": "Natural and casual portraits",
+        "icon": "🌿"
+      },
+      {
+        "id": "specialized",
+        "name": "Specialized",
+        "description": "Industry-specific professional portraits",
+        "icon": "⚡"
+      },
+      {
+        "id": "premium",
+        "name": "Premium",
+        "description": "High-end professional portraits",
+        "icon": "👔"
+      }
+    ],
+    "aspectRatios": [
+      {
+        "ratio": "1:1",
+        "resolution": "1024x1024",
+        "displayName": "Square",
+        "description": "Perfect for profile pictures",
+        "icon": "⬜"
+      },
+      {
+        "ratio": "4:5",
+        "resolution": "832x1024",
+        "displayName": "Portrait",
+        "description": "Ideal for professional headshots",
+        "icon": "📱"
+      },
+      {
+        "ratio": "3:4",
+        "resolution": "768x1024",
+        "displayName": "Classic",
+        "description": "Traditional portrait format",
+        "icon": "🖼️"
+      },
+      {
+        "ratio": "16:9",
+        "resolution": "1280x720",
+        "displayName": "Wide",
+        "description": "Landscape orientation",
+        "icon": "🖥️"
+      },
+      {
+        "ratio": "9:16",
+        "resolution": "720x1280",
+        "displayName": "Vertical",
+        "description": "Mobile-friendly vertical",
+        "icon": "📲"
+      }
+    ],
+    "qualityOptions": [
+      {
+        "level": "high",
+        "credits": 50,
+        "description": "High quality professional headshots",
+        "estimatedTime": "45-60 seconds"
+      }
+    ],
+    "costs": {
+      "headshotGeneration": 50
+    },
+    "limits": {
+      "batchSize": 1,
+      "supportedFormats": [
+        "JPEG",
+        "PNG",
+        "WEBP"
+      ],
+      "maxFileSize": "10MB",
+      "minResolution": "512x512"
+    },
+    "features": {
+      "batchGeneration": false,
+      "favoriteSystem": true,
+      "historyTracking": true,
+      "progressTracking": true,
+      "premiumStyles": false
+    },
+    "styleCategories": {
+      "business": 1,
+      "creative": 1,
+      "entertainment": 2,
+      "lifestyle": 1,
+      "specialized": 1,
+      "premium": 3
+    },
+    "statistics": {
+      "totalStyles": 9,
+      "premiumStyles": 5,
+      "basicStyles": 4
+    }
+  },
+  "statusCode": 200
+}
