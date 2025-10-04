@@ -26,6 +26,9 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
   const negativePrompt = buildNegativePrompt(params.style.negativePrompt);
   
   try {
+    // Convert image URL to base64 if needed
+    const imageBase64 = await convertImageToBase64(params.imageUrl);
+    
     const results: string[] = [];
     let totalCost = 0;
 
@@ -40,7 +43,7 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
         ...HEADSHOT_GEN_OPTIONS,
         prompt,
         negative_prompt: negativePrompt,
-        image: params.imageUrl,
+        image: imageBase64,
         width,
         height,
         steps: getStepsForQuality(params.quality),
@@ -160,4 +163,27 @@ export function estimateProcessingTime(quality: string, batchSize: number): numb
   
   const base = baseTime[quality as keyof typeof baseTime] || 45;
   return base + (batchSize - 1) * 15; // Additional 15 seconds per extra image
+}
+
+// Helper function to convert image URL to base64
+async function convertImageToBase64(imageInput: string): Promise<string> {
+  // If already base64, return as-is
+  if (imageInput.startsWith('data:image/')) {
+    return imageInput.split(',')[1]; // Remove data:image/xxx;base64, prefix
+  }
+  
+  // If it's a URL, fetch and convert to base64
+  try {
+    const response = await fetch(imageInput);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${response.statusText}`);
+    }
+    
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    return buffer.toString('base64');
+  } catch (error) {
+    console.error('Error converting image to base64:', error);
+    throw new Error('Failed to process image. Please ensure the image URL is accessible.');
+  }
 }
