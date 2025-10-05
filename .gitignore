@@ -40,3 +40,7 @@ next-env.d.ts
 
 # Custom Scripts
 _*.sh
+
+# Documentation (exclude README.md)
+*.md
+!README.md
