@@ -14,6 +14,7 @@ interface HeadshotGenerationParams {
   };
   quality: 'standard' | 'high' | 'ultra';
   batchSize: number;
+  gender?: 'male' | 'female'; // Optional gender parameter
 }
 
 export async function generateHeadshot(params: HeadshotGenerationParams) {
@@ -25,8 +26,8 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
     // Convert image URL to base64 if needed
     const imageBase64 = await convertImageToBase64(params.imageUrl);
     
-    // Build comprehensive prompt for headshot
-    const prompt = buildHeadshotPrompt(params.style.promptTemplate, params.quality);
+    // Build comprehensive prompt for headshot with gender context
+    const prompt = buildHeadshotPrompt(params.style.promptTemplate, params.quality, params.gender);
     
     const results: string[] = [];
 
@@ -34,12 +35,17 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
     for (let i = 0; i < params.batchSize; i++) {
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${env.GEMINI_API_KEY}`;
       
+      // Build gender-aware instruction
+      const genderContext = params.gender 
+        ? `The person in the photo is ${params.gender}. Use appropriate ${params.gender === 'male' ? 'masculine' : 'feminine'} styling for clothing and presentation while maintaining professional standards.` 
+        : '';
+      
       // Gemini 2.0 Flash with image generation enabled
       const requestBody = {
         contents: [{
           parts: [
             {
-              text: `Transform this photo into a professional headshot: ${prompt}\n\nCRITICAL: Preserve the EXACT facial features, hair color, eye color, skin tone, and facial structure from the original photo. ONLY change the clothing and background. The person must remain completely identical.`
+              text: `Transform this photo into a professional headshot: ${prompt}\n\n${genderContext}\n\nCRITICAL: Preserve the EXACT facial features, hair color, eye color, skin tone, and facial structure from the original photo. ONLY change the clothing and background. The person must remain completely identical.`
             },
             {
               inline_data: {
@@ -235,15 +241,20 @@ export async function generateHeadshot(params: HeadshotGenerationParams) {
   */
 }
 
-function buildHeadshotPrompt(styleTemplate: string, quality: string): string {
+function buildHeadshotPrompt(styleTemplate: string, quality: string, gender?: 'male' | 'female'): string {
   const qualityModifiers: Record<string, string> = {
     standard: "professional photography, photorealistic, real photograph",
     high: "high-quality professional photography, photorealistic, real photograph, DSLR quality, sharp focus, natural lighting",
     ultra: "ultra high-quality professional photography, photorealistic, real photograph taken with professional DSLR camera, sharp focus, studio lighting, commercial grade, natural skin texture, authentic photography"
   };
   
+  // Add gender context if provided
+  const genderModifier = gender 
+    ? `${gender === 'male' ? 'Professional male' : 'Professional female'} subject, appropriate ${gender === 'male' ? 'masculine' : 'feminine'} styling and attire.` 
+    : '';
+  
   // Add strong photorealism keywords
-  return `${styleTemplate}, ${qualityModifiers[quality] || qualityModifiers.high}, professional headshot portrait, real photograph, authentic photography, natural skin pores and texture, photorealistic human, centered composition`;
+  return `${styleTemplate}, ${genderModifier} ${qualityModifiers[quality] || qualityModifiers.high}, professional headshot portrait, real photograph, authentic photography, natural skin pores and texture, photorealistic human, centered composition`;
 }
 
 function buildNegativePrompt(styleNegative?: string): string {
@@ -303,8 +314,13 @@ async function convertImageToBase64(imageInput: string): Promise<string> {
     }
     
     const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    return buffer.toString('base64');
+    // Convert ArrayBuffer to base64 without Buffer (Node.js compatible)
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
   } catch (error) {
     console.error('Error converting image to base64:', error);
     throw new Error('Failed to process image. Please ensure the image URL is accessible.');

@@ -101,7 +101,8 @@ export async function POST(req: Request) {
       },
       aspectRatio: aspectRatio,
       quality: 'high',
-      batchSize: 1
+      batchSize: 1,
+      gender: data.gender // Pass gender parameter to AI generation
     });
 
     const processingTime = Math.floor((Date.now() - startTime) / 1000);

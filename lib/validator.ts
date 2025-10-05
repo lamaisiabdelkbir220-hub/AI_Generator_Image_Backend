@@ -28,6 +28,7 @@ export const authRefreshSchema = z.object({
 export const headshotGenerateSchema = z.object({
     imageUrl: z.string().min(1, "Image URL or base64 required"), // Accept both URL and base64
     style: z.string().min(1, "Style is required"),
-    aspectRatio: z.string().min(1, "Aspect ratio is required")
+    aspectRatio: z.string().min(1, "Aspect ratio is required"),
+    gender: z.enum(["male", "female"]).optional() // Optional gender selection
     // Removed quality and batchSize - single generation only
 });
