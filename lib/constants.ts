@@ -309,6 +309,90 @@ export const HEADSHOT_STYLES = [
     isPremium: false,
     category: "specialized",
     tags: ["athlete", "sports", "player", "fitness"]
+  },
+  {
+    id: "model-portfolio",
+    name: "Model Portfolio",
+    description: "Professional modeling agency and portfolio headshots",
+    previewUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic model portfolio headshot of the uploaded person. Preserve identity exactly: maintain the same face shape, natural hair, eye color, and skin tone as in the original photo. No modifications to facial features. Clothing: replace with stylish, well-fitted wardrobe suitable for a professional model portfolio — neutral or trendy top, clean lines, no logos or heavy patterns. Background: minimalistic studio backdrop (white, gray, or gradient) that emphasizes the subject. Lighting: professional soft studio lighting with subtle highlights and natural shadows to sculpt facial features. Expression: confident, natural, with subtle attitude — a slight smile or strong neutral gaze. Final result: high-resolution, sharp focus, natural skin texture, magazine-quality finish suitable for modeling agencies or portfolios.",
+    negativePrompt: "illustration, painting, logos, heavy patterns, cluttered background, poor lighting, amateur quality, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "entertainment",
+    tags: ["modeling", "portfolio", "agency", "professional"]
+  },
+  {
+    id: "fashion",
+    name: "Fashion",
+    description: "High-fashion editorial and campaign portraits",
+    previewUrl: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic fashion headshot of the uploaded person. Preserve identity exactly: keep the same facial structure, hairstyle, eye color, and skin tone from the original photo. No changes to facial features. Clothing: replace with high-fashion attire — elegant or avant-garde outfit matching a professional editorial style. Use rich fabrics, clean cuts, or unique accessories (no over-decoration). Background: minimalist studio or artistic textured backdrop in complementary tones. Lighting: dramatic and high-contrast, with stylish shadow play or fashion-style highlights. Expression: poised, stylish, and confident — embodying sophistication or attitude. Final result: high-resolution, professional-grade, ready for use in magazines, fashion campaigns, or lookbooks.",
+    negativePrompt: "illustration, painting, over-decoration, cluttered background, poor lighting, amateur quality, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "premium",
+    tags: ["fashion", "editorial", "high-fashion", "campaign"]
+  },
+  {
+    id: "musician",
+    name: "Musician",
+    description: "Artist and music industry promotional portraits",
+    previewUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic musician headshot of the uploaded person. Preserve identity exactly: keep the same facial structure, hair, eye color, and skin tone as the original photo. Clothing: replace with artist-inspired wardrobe — denim jacket, leather jacket, casual shirt, or performance outfit fitting the musician's vibe (pop, rock, jazz, etc.). Background: studio setup, dimly lit concert environment, or softly blurred outdoor scene with creative flair. Lighting: moody and artistic, with highlights and subtle backlighting to create depth. Expression: expressive, confident, authentic — a touch of emotion or creative focus. Final result: sharp, realistic, and high-resolution image suitable for album covers, music press, or promotional material.",
+    negativePrompt: "illustration, painting, corporate attire, bright harsh lighting, stiff pose, amateur quality, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "entertainment",
+    tags: ["musician", "artist", "music", "performer"]
+  },
+  {
+    id: "fitness",
+    name: "Fitness",
+    description: "Athletic and fitness professional portraits",
+    previewUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic fitness headshot of the uploaded person. Preserve identity exactly: maintain the same facial features, hair, eye color, and skin tone from the original photo. Clothing: replace with athletic or gym attire — fitted sportswear, tank top, or training gear. Must look natural and professional. Background: gym setting, outdoor track, or blurred athletic environment. Lighting: bright, directional lighting highlighting physical definition, energy, and health. Expression: energetic, confident, and motivating. Final result: high-resolution, realistic, dynamic image ideal for fitness professionals, coaches, or sports influencers.",
+    negativePrompt: "illustration, painting, casual clothing, poor lighting, weak expression, amateur quality, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "specialized",
+    tags: ["fitness", "trainer", "coach", "health"]
+  },
+  {
+    id: "beauty",
+    name: "Beauty",
+    description: "Professional beauty and cosmetics campaign portraits",
+    previewUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic beauty headshot of the uploaded person. Preserve identity exactly: keep the same face shape, natural hair, eye color, and skin tone as in the original photo. Clothing: minimalistic or elegant top — clean neckline or shoulder framing to emphasize the face. Background: soft gradient, pastel tones, or neutral backdrop to highlight facial beauty. Lighting: flawless, soft beauty lighting with gentle shadows for perfect skin tone and natural texture. Expression: calm, confident, gentle smile or serene gaze. Final result: ultra high-resolution, sharp detail, realistic skin texture — must look like a professional beauty campaign image.",
+    negativePrompt: "illustration, painting, distracting clothing, cluttered background, harsh lighting, poor quality, low resolution",
+    creditCost: 5,
+    isPremium: false,
+    category: "premium",
+    tags: ["beauty", "cosmetics", "skincare", "elegant"]
+  },
+  {
+    id: "luxury",
+    name: "Luxury",
+    description: "Premium luxury brand and lifestyle portraits",
+    previewUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic luxury-style headshot of the uploaded person. Preserve identity exactly: maintain the same facial structure, natural hair, eye color, and skin tone. No changes to facial features. Clothing: replace with premium attire — tailored suit, elegant dress, or designer-inspired outfit. Luxurious textures such as silk, velvet, or fine cotton. Background: refined and sophisticated — deep tones, blurred elegant interior, or minimalist neutral studio with luxury ambience. Lighting: dramatic yet soft, highlighting contours naturally with premium cinematic depth. Expression: confident, composed, and refined — subtle elegance. Final result: high-resolution, realistic, polished, and cinematic — suitable for luxury brand campaigns or executive lifestyle profiles.",
+    negativePrompt: "illustration, painting, casual attire, plain background, harsh lighting, amateur quality, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "premium",
+    tags: ["luxury", "premium", "elegant", "sophisticated"]
+  },
+  {
+    id: "branding",
+    name: "Branding",
+    description: "Personal brand and professional identity portraits",
+    previewUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic personal branding headshot of the uploaded person. Preserve identity exactly: maintain the same facial features, hair, eye color, and skin tone as the original photo. Clothing: replace with attire that aligns with the brand identity — professional, modern, or creative outfit depending on the personal brand style. Background: clean branded environment — blurred office, creative studio, or minimal background with light color harmony. Lighting: bright, clean, and professional, emphasizing trust and authenticity. Expression: approachable, confident, friendly — expressing personal brand personality. Final result: sharp, high-resolution, realistic headshot optimized for websites, LinkedIn, or brand identity materials.",
+    negativePrompt: "illustration, painting, inappropriate attire, cluttered background, poor lighting, unfriendly expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "business",
+    tags: ["branding", "personal-brand", "professional", "identity"]
   }
 ] as const;
 
