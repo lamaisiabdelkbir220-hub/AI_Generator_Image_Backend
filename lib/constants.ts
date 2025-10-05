@@ -213,6 +213,102 @@ export const HEADSHOT_STYLES = [
     isPremium: false,
     category: "specialized",
     tags: ["environmental", "contextual", "workplace", "natural"]
+  },
+  {
+    id: "academic",
+    name: "Academic",
+    description: "Professional university and research profile headshots",
+    previewUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic academic headshot of the uploaded person. Preserve identity exactly: keep the same face shape, hair style, eye color, and skin tone as in the original photo. No modifications to facial features. Clothing: replace with professional academic attire — smart collared shirt or blouse, optional blazer, or a subtle sweater. Keep colors neutral (navy, gray, or beige). Background: clean and intellectual — softly blurred university interior, library shelves, or plain neutral backdrop. Lighting: soft, balanced lighting with gentle highlights, similar to natural daylight. Expression: thoughtful, confident, approachable, with a subtle smile or neutral scholarly look. Final result: sharp focus, realistic texture, high-resolution. Should look like a professional university staff photo or research profile image.",
+    negativePrompt: "illustration, painting, drawing, casual attire, unprofessional background, harsh lighting, exaggerated expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "specialized",
+    tags: ["academic", "university", "professor", "research"]
+  },
+  {
+    id: "startup",
+    name: "Startup",
+    description: "Modern tech founder and entrepreneur portraits",
+    previewUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic startup founder headshot of the uploaded person. Preserve identity exactly: maintain the same facial structure, natural hair, eye color, and skin tone. No facial alterations. Clothing: replace with modern casual business attire — fitted T-shirt, hoodie with blazer, or smart casual shirt. Keep colors trendy yet minimal (black, navy, gray, white). Background: modern office space, coworking area, or softly blurred tech environment. Lighting: bright, modern lighting with clean contrast; natural daylight or soft studio light. Expression: energetic, confident, and approachable. Slight smile or candid leadership expression. Final result: sharp, natural, and high-resolution — should look like a LinkedIn or tech founder press photo.",
+    negativePrompt: "illustration, painting, formal suit, old-fashioned background, poor lighting, stiff pose, low quality, unrealistic",
+    creditCost: 5,
+    isPremium: false,
+    category: "business",
+    tags: ["startup", "founder", "entrepreneur", "tech"]
+  },
+  {
+    id: "engineer",
+    name: "Engineer",
+    description: "Technical professional and engineering portraits",
+    previewUrl: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic engineer headshot of the uploaded person. Preserve identity exactly: keep the same face shape, hairstyle, eye color, and skin tone from the original photo. Clothing: replace with smart-casual technical attire — collared shirt, polo, or workwear jacket. Optionally, safety vest or lab coat for field engineers. Background: professional technical setting — blurred workshop, office with equipment, or clean neutral background. Lighting: clear, bright, and professional — balanced studio or daylight lighting. Expression: focused yet friendly, practical and confident. Final result: high-resolution, sharp focus, realistic professional look suited for engineers or technical professionals.",
+    negativePrompt: "illustration, painting, unprofessional attire, cluttered background, poor lighting, casual expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "specialized",
+    tags: ["engineer", "technical", "professional", "industry"]
+  },
+  {
+    id: "artist",
+    name: "Artist",
+    description: "Creative and expressive artist portraits",
+    previewUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic artist headshot of the uploaded person. Preserve identity exactly: maintain the same face, hair, eye color, and skin tone as the original photo. Clothing: artistic and expressive — casual creative wear such as a denim jacket, paint-splattered shirt, or stylish scarf. Natural and authentic. Background: artistic environment — softly blurred art studio, gallery, or textured neutral background. Lighting: warm and creative — natural daylight or slightly moody studio lighting with artistic depth. Expression: expressive, creative, confident, with natural emotion or slight smile. Final result: realistic, high-resolution, magazine-quality image that conveys creativity and authenticity.",
+    negativePrompt: "illustration, painting, corporate attire, plain background, harsh lighting, stiff pose, low quality, unrealistic",
+    creditCost: 5,
+    isPremium: false,
+    category: "creative",
+    tags: ["artist", "creative", "painter", "sculptor"]
+  },
+  {
+    id: "medical",
+    name: "Medical",
+    description: "Healthcare professional and clinical portraits",
+    previewUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic medical professional headshot of the uploaded person. Preserve identity exactly: keep the same face shape, hairstyle, eye color, and skin tone from the original image. Clothing: replace with clean medical attire — white lab coat over professional shirt or scrubs. Add stethoscope if contextually suitable. Background: hospital, clinic, or softly blurred neutral background with subtle blue or white tones. Lighting: bright, clean, professional lighting emphasizing clarity and trustworthiness. Expression: calm, confident, caring, and approachable. Final result: sharp, realistic, and high-resolution — should look like a hospital or clinic staff portrait.",
+    negativePrompt: "illustration, painting, casual attire, unprofessional background, poor lighting, unfriendly expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "specialized",
+    tags: ["medical", "doctor", "healthcare", "clinical"]
+  },
+  {
+    id: "legal",
+    name: "Legal",
+    description: "Professional attorney and law firm portraits",
+    previewUrl: "https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic legal professional headshot of the uploaded person. Preserve identity exactly: maintain the same face structure, natural hair, eye color, and skin tone. Clothing: replace with formal attire — tailored suit jacket, crisp shirt or blouse, optional tie. Dark, professional colors like navy, black, or gray. Background: neutral or blurred law office interior, courtroom tone, or professional gray backdrop. Lighting: professional studio-quality light with soft highlights and subtle contrast. Expression: confident, composed, trustworthy, with neutral or slight smile. Final result: sharp focus, realistic, polished, high-resolution. Ideal for law firm or legal profile photo.",
+    negativePrompt: "illustration, painting, casual attire, bright colors, unprofessional background, harsh lighting, overly friendly expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "business",
+    tags: ["legal", "attorney", "lawyer", "law"]
+  },
+  {
+    id: "student",
+    name: "Student",
+    description: "Youthful academic and campus portraits",
+    previewUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic student headshot of the uploaded person. Preserve identity exactly: keep the same facial structure, hair, eye color, and skin tone as the original photo. Clothing: casual youthful attire — hoodie, T-shirt, or light jacket. Clean and simple, avoiding logos. Background: campus outdoor, classroom, or softly blurred neutral setting. Lighting: natural daylight or bright, soft lighting. Expression: cheerful, confident, natural smile. Final result: realistic, high-resolution, and friendly — suitable for school or university profile.",
+    negativePrompt: "illustration, painting, formal attire, professional background, harsh lighting, serious expression, logos, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "lifestyle",
+    tags: ["student", "campus", "university", "youth"]
+  },
+  {
+    id: "athlete",
+    name: "Athlete",
+    description: "Sports and athletic professional portraits",
+    previewUrl: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=400&fit=crop",
+    promptTemplate: "Generate a realistic athlete headshot of the uploaded person. Preserve identity exactly: maintain the same facial features, hair, eye color, and skin tone. Clothing: replace with athletic wear — team jersey, sports top, or performance gear depending on sport type. Background: stadium, training field, gym, or softly blurred sports environment. Lighting: dynamic and natural — outdoor daylight or bright studio sports light. Expression: confident, focused, energetic. Final result: sharp, high-resolution, and realistic — should look like a professional sports profile or media photo.",
+    negativePrompt: "illustration, painting, casual attire, unprofessional background, poor lighting, weak expression, low quality",
+    creditCost: 5,
+    isPremium: false,
+    category: "specialized",
+    tags: ["athlete", "sports", "player", "fitness"]
   }
 ] as const;
 
