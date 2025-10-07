@@ -3,7 +3,10 @@ import * as schema from '@/db/schema';
 import { auth } from "@/lib/auth";
 import { eq, and } from "drizzle-orm";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  req: Request, 
+  { params }: { params: Promise<{ id: string }> }
+) {
   const authUser = await auth(req);
 
   if (!authUser)
@@ -14,7 +17,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }, { status: 401 });
 
   try {
-    const generationId = parseInt(params.id);
+    const { id } = await params;
+    const generationId = parseInt(id);
     
     if (isNaN(generationId))
       return Response.json({ 
@@ -86,7 +90,10 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 // PUT endpoint to update generation metadata (like favorite status)
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: Request, 
+  { params }: { params: Promise<{ id: string }> }
+) {
   const authUser = await auth(req);
 
   if (!authUser)
@@ -97,7 +104,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }, { status: 401 });
 
   try {
-    const generationId = parseInt(params.id);
+    const { id } = await params;
+    const generationId = parseInt(id);
     const rawData = await req.json();
     
     if (isNaN(generationId))
@@ -163,7 +171,10 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 }
 
 // DELETE endpoint to delete a generation
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: Request, 
+  { params }: { params: Promise<{ id: string }> }
+) {
   const authUser = await auth(req);
 
   if (!authUser)
@@ -174,7 +185,8 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     }, { status: 401 });
 
   try {
-    const generationId = parseInt(params.id);
+    const { id } = await params;
+    const generationId = parseInt(id);
     
     if (isNaN(generationId))
       return Response.json({ 
