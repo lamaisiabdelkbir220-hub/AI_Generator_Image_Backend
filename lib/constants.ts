@@ -104,6 +104,29 @@ export const ALL_PRICING_PLANS = [
   ...IOS_PRICING_PLANS
 ] as const;
 
+// Product ID to Credits Mapping for IAP Verification
+export const PRODUCT_CREDITS_MAP: Record<string, number> = {
+  // Android Products
+  'com.ai.headshot.photo.generator.credits_10': 10,
+  'com.ai.headshot.photo.generator.credits_50': 50,
+  'com.ai.headshot.photo.generator.credits_100': 100,
+  'com.ai.headshot.photo.generator.credits_1000': 1000,
+  'credits_10': 10,
+  'credits_50': 50,
+  'credits_100': 100,
+  'credits_1000': 1000,
+  
+  // iOS Products
+  'com.ai.headshot.photo.generator.ios_credits_10': 10,
+  'com.ai.headshot.photo.generator.ios_credits_50': 50,
+  'com.ai.headshot.photo.generator.ios_credits_100': 100,
+  'com.ai.headshot.photo.generator.ios_credits_1000': 1000,
+  'ios_credits_10': 10,
+  'ios_credits_50': 50,
+  'ios_credits_100': 100,
+  'ios_credits_1000': 1000,
+};
+
 // Headshot generation constants
 export const HEADSHOT_STYLES = [
   {

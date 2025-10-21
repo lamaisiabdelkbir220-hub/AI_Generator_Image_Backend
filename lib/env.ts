@@ -11,6 +11,13 @@ const envSchema = z.object({
   WEBSITE_URL: z.string().default('https://example.com'),
   FIREBASE_SERVICE_ACCOUNT_BASE64: z.string().optional(),
   CRON_SECRET: z.string().optional(), // Secret for protecting cron endpoints
+  
+  // IAP (In-App Purchase) Environment Variables
+  APPLE_SHARED_SECRET: z.string().optional(), // Apple App Store shared secret
+  APPLE_ENV: z.enum(['sandbox', 'production']).default('sandbox'), // Apple environment
+  GOOGLE_PACKAGE_NAME: z.string().optional(), // Android package name
+  GOOGLE_SERVICE_ACCOUNT_KEY: z.string().optional(), // Google service account JSON (base64 encoded)
+  ALLOW_TEST_PURCHASES: z.string().default('true'), // Allow test purchases (set to 'false' in production)
 });
 
 // Parse environment variables with fallbacks during build time

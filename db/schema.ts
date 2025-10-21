@@ -69,3 +69,20 @@ export const headshotGenerations = pgTable("headshot_generations", {
 
 // Note: Headshot styles are managed in lib/constants.ts (HEADSHOT_STYLES)
 // No database table needed - styles are hardcoded for better performance
+
+// Platform enum for IAP transactions
+export const platformEnum = pgEnum("platform_enum", ["ios", "android"]);
+
+// Transactions table for IAP verification
+export const transactions = pgTable("transactions", {
+    id: serial().primaryKey().notNull(),
+    transactionId: varchar("transaction_id", { length: 255 }).notNull().unique(),
+    userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    productId: varchar("product_id", { length: 255 }).notNull(),
+    credits: integer("credits").notNull(),
+    platform: platformEnum("platform").notNull(),
+    isTest: boolean("is_test").default(false),
+    receipt: text("receipt"), // Store truncated receipt for audit
+    verifiedAt: timestamp("verified_at").defaultNow().notNull(),
+    ...timestamps,
+});
